@@ -13,6 +13,11 @@
   border-bottom: 1px solid var(--text-400);
 }
 
+.note-header h1 {
+  font-size: 40px;
+  font-weight: 700;
+}
+
 .note-app {
   display: flex;
   justify-content: space-between;

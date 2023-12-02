@@ -1,16 +1,31 @@
 /* eslint-disable react/prop-types */
 
-const NoteLists = ({ notes, onDelete, onComplete }) => {
+const NoteLists = ({ notes, onDelete, onComplete, sortBy }) => {
+  let sortedNotes = notes;
+
+  if (sortBy === "earliest")
+    sortedNotes = [...notes].sort(
+      (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+    );
+  if (sortBy === "latest")
+    sortedNotes = [...notes].sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+  if (sortBy === "completed")
+    sortedNotes = [...notes].sort(
+      (a, b) => Number(a.completed) - Number(b.completed)
+    );
+
   return (
     <div className="note-list">
-      {notes.map((note) => {
+      {sortedNotes.map((note) => (
         <NoteItem
           key={note.id}
           note={note}
           onDelete={onDelete}
           onComplete={onComplete}
-        />;
-      })}
+        />
+      ))}
     </div>
   );
 };
@@ -18,11 +33,11 @@ const NoteLists = ({ notes, onDelete, onComplete }) => {
 export default NoteLists;
 
 const NoteItem = ({ note, onDelete, onComplete }) => {
-  // const options = {
-  //   year: "numeric",
-  //   month: "long",
-  //   day: "numeric",
-  // };
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
 
   return (
     <div className={`note-item ${note.completed ? "completed" : ""}`}>
@@ -44,11 +59,7 @@ const NoteItem = ({ note, onDelete, onComplete }) => {
         </div>
       </div>
       <div className="note-item__footer">
-        {new Date(note.createdAt).toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
+        {new Date(note.createdAt).toLocaleDateString("en-US", options)}
       </div>
     </div>
   );

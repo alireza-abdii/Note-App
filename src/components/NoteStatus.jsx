@@ -5,7 +5,8 @@ const NoteStatus = ({ notes }) => {
   const completedNotes = notes.filter((note) => note.completed).length;
   const unCompletedNotes = notes.filter((note) => !note.completed).length;
 
-  if (!allNotes) return <h2>There is no notes</h2>;
+  if (!allNotes)
+    return <h2 className="font-bold text-xl">There is no notes</h2>;
 
   return (
     <ul className="note-status">
