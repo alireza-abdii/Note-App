@@ -1,6 +1,10 @@
 /* eslint-disable react/prop-types */
 
-const NoteLists = ({ notes, onDelete, onComplete, sortBy }) => {
+import { useDispatchNotes, useNotes } from "../context/NotesContext";
+
+const NoteLists = ({ sortBy }) => {
+  const notes = useNotes();
+
   let sortedNotes = notes;
 
   if (sortBy === "earliest")
@@ -19,12 +23,7 @@ const NoteLists = ({ notes, onDelete, onComplete, sortBy }) => {
   return (
     <div className="note-list">
       {sortedNotes.map((note) => (
-        <NoteItem
-          key={note.id}
-          note={note}
-          onDelete={onDelete}
-          onComplete={onComplete}
-        />
+        <NoteItem key={note.id} note={note} />
       ))}
     </div>
   );
@@ -32,7 +31,9 @@ const NoteLists = ({ notes, onDelete, onComplete, sortBy }) => {
 
 export default NoteLists;
 
-const NoteItem = ({ note, onDelete, onComplete }) => {
+const NoteItem = ({ note }) => {
+  const dispatch = useDispatchNotes();
+
   const options = {
     year: "numeric",
     month: "long",
@@ -47,14 +48,20 @@ const NoteItem = ({ note, onDelete, onComplete }) => {
           <p className="desc">{note.noteDesc}</p>
         </div>
         <div className="actions">
-          <button onClick={() => onDelete(note.id)}>❌</button>
+          <button
+            onClick={() => dispatch({ type: "deleteNote", payload: note.id })}
+          >
+            ❌
+          </button>
           <input
             type="checkbox"
             name={note.id}
             id={note.id}
             value={note.id}
             checked={note.completed}
-            onChange={onComplete}
+            onChange={(e) =>
+              dispatch({ type: "complete", payload: Number(e.target.value) })
+            }
           />
         </div>
       </div>

@@ -1,6 +1,10 @@
 /* eslint-disable react/prop-types */
 
-const NoteStatus = ({ notes }) => {
+import { useNotes } from "../context/NotesContext";
+
+const NoteStatus = () => {
+  const notes = useNotes();
+
   const allNotes = notes.length;
   const completedNotes = notes.filter((note) => note.completed).length;
   const unCompletedNotes = notes.filter((note) => !note.completed).length;

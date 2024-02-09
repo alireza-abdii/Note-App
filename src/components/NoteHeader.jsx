@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
 
-const NoteHeader = ({ notes, sortBy, onSort }) => {
+import { useNotes } from "../context/NotesContext";
+
+const NoteHeader = ({ sortBy, onSort }) => {
+  const notes = useNotes();
   return (
     <div className="note-header">
       <h1>My Notes({notes.length})</h1>

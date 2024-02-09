@@ -1,10 +1,13 @@
 /* eslint-disable react/prop-types */
 
 import { useState } from "react";
+import { useDispatchNotes } from "../context/NotesContext";
 
-const AddNewNote = ({ onAddNote }) => {
+const AddNewNote = () => {
   const [noteTitle, setNoteTitle] = useState("");
   const [noteDesc, setNoteDesc] = useState("");
+
+  const dispatch = useDispatchNotes();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,7 +22,7 @@ const AddNewNote = ({ onAddNote }) => {
       createdAt: new Date().toISOString(),
     };
 
-    onAddNote(newNote);
+    dispatch({ type: "addNote", payload: newNote });
 
     setNoteTitle("");
     setNoteDesc("");
